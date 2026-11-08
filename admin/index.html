@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#090711">
+  <title>AniHub Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="admin-header"><a class="brand" href="../"><span class="brand-mark">A</span><span>Ani<span>Hub</span></span></a><div><span class="admin-label">ADMIN DASHBOARD</span><a class="back-link" href="../">← View website</a></div></header>
+  <main class="shell">
+    <section class="intro"><p class="eyebrow">CONTENT CONTROL CENTER</p><h1>Manage your <span>Anime.</span></h1><p>Add and maintain catalog titles, seasons, episodes, audio languages and subtitle metadata.</p></section>
+    <section class="panel auth-panel" id="authPanel">
+      <div><p class="eyebrow">SECURE ACCESS</p><h2>Admin sign in</h2><p class="muted">Only an account granted the Firebase admin custom claim can manage content.</p></div>
+      <form id="loginForm" class="form-grid"><label>Email<input type="email" id="email" autocomplete="username" required placeholder="admin@example.com"></label><label>Password<input type="password" id="password" autocomplete="current-password" required placeholder="Your password"></label><button class="primary" type="submit">Sign in</button><p class="message" id="authMessage" aria-live="polite"></p></form>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="toolbar"><div><p class="eyebrow">SIGNED IN</p><strong id="adminEmail"></strong></div><button class="secondary" id="signOut">Sign out</button></div>
+      <div class="stats"><article class="stat"><span>Catalog titles</span><strong id="animeCount">0</strong></article><article class="stat"><span>Selected title</span><strong id="selectedTitle">None</strong></article></div>
+      <div class="columns">
+        <section class="panel"><div class="panel-heading"><div><p class="eyebrow">CATALOG</p><h2>Add / edit anime</h2></div><button class="text-button" id="resetAnime" type="button">Clear form</button></div>
+          <form id="animeForm" class="form-grid">
+            <input type="hidden" id="animeId">
+            <label>Anime title *<input id="title" required maxlength="120" placeholder="Example: My Licensed Series"></label>
+            <label>Description<textarea id="description" rows="3" maxlength="1500" placeholder="Short original description"></textarea></label>
+            <div class="two"><label>Genres *<input id="genres" required placeholder="Action, Fantasy"></label><label>Release year<input id="year" type="number" min="1900" max="2100" placeholder="2026"></label></div>
+            <div class="two"><label>Rating<input id="rating" type="number" min="0" max="10" step="0.1" placeholder="8.5"></label><label>Status<select id="status"><option>Popular</option><option>Trending</option><option>New</option><option>Completed</option><option>Upcoming</option><option>Movie</option></select></label></div>
+            <label>Poster image URL<input id="posterUrl" type="url" placeholder="https://... (use artwork you may distribute)"></label>
+            <label>Banner image URL<input id="bannerUrl" type="url" placeholder="https://..."></label>
+            <div class="two"><label>Audio languages<input id="audioLanguages" placeholder="Japanese, English"></label><label>Subtitle languages<input id="subtitleLanguages" placeholder="English, Bangla, Hindi"></label></div>
+            <label>Content / artwork rights note<input id="rightsNote" maxlength="300" placeholder="e.g. Licensed from ... / Public domain source"></label>
+            <button class="primary" type="submit" id="saveAnime">Save anime</button><p class="message" id="animeMessage" aria-live="polite"></p>
+          </form>
+        </section>
+        <section class="panel"><div class="panel-heading"><div><p class="eyebrow">YOUR LIBRARY</p><h2>Anime catalog</h2></div><button class="text-button" id="refreshCatalog" type="button">Refresh</button></div><div id="catalogList" class="catalog-list"><p class="muted">Sign in to load catalog.</p></div></section>
+      </div>
+      <section class="panel season-panel"><div class="panel-heading"><div><p class="eyebrow">EPISODE STRUCTURE</p><h2>Seasons & episodes</h2></div></div><p class="muted">Select an anime above, then add a season and its episodes. Video URL fields are metadata only; use only sources you are authorized to stream.</p>
+        <form id="seasonForm" class="form-grid compact"><div class="two"><label>Season number<input id="seasonNumber" type="number" min="1" required value="1"></label><label>Season title<input id="seasonTitle" placeholder="Season 1"></label></div><button class="secondary" type="submit">Add season</button><p class="message" id="seasonMessage" aria-live="polite"></p></form>
+        <div class="two episode-area"><form id="episodeForm" class="form-grid compact"><h3>Add episode</h3><label>Season<select id="episodeSeason" required><option value="">Select season</option></select></label><div class="two"><label>Episode number<input id="episodeNumber" type="number" min="1" required></label><label>Episode title<input id="episodeTitle" placeholder="Episode title"></label></div><label>Authorized video URL<input id="videoUrl" type="url" placeholder="https://..."></label><div class="two"><label>Audio tracks<input id="episodeAudio" placeholder="Japanese, English"></label><label>Subtitle tracks<input id="episodeSubs" placeholder="English, Bangla, Hindi"></label></div><button class="secondary" type="submit">Add episode</button><p class="message" id="episodeMessage" aria-live="polite"></p></form><div><h3>Saved seasons</h3><div id="seasonList" class="season-list"><p class="muted">Choose an anime to view seasons.</p></div></div></div>
+      </section>
+    </section>
+    <footer>Use Firebase Authentication and Firestore security rules. Never publish service-account keys or grant admin access from browser code.</footer>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body></html>
